@@ -1,0 +1,6 @@
+export default {
+	HEADER_HEIGHT: 50,
+	TABS_HEIGHT: 50,
+	ICON_SIZE: 15,
+	INNER_MARGIN: 8
+};
