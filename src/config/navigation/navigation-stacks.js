@@ -9,6 +9,9 @@ import BottomTabsComponent from '../../commons/components/bottom-tabs/bottom-tab
 import Dashboard from '../../screens/dashboard/dashboard';
 import Timeline from '../../screens/timeline/timeline';
 
+import AddCategory from '../../screens/add-category/add-category';
+import Categories from '../../screens/categories/categories';
+
 const BottomTabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -18,6 +21,7 @@ function NavigationStacks() {
 			<BottomTabs.Navigator headerMode="none" tabBar={BottomTabsComponent}>
 				<BottomTabs.Screen name="Dashboard" component={Dashboard} options={{tabBarLabel: 'balance-scale'}} />
 				<BottomTabs.Screen name="Timeline" component={Timeline} options={{tabBarLabel: 'calendar'}} />
+				<BottomTabs.Screen name="AddCategory" component={AddCategory} options={{tabBarLabel: 'calendar'}} />
 			</BottomTabs.Navigator>
 		</NavigationContainer>
 	)
