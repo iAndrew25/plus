@@ -16,24 +16,24 @@ const categories = [
 	{color: '#e77f67', name: 'Deleniti veniam quas voluptas'},
 	{color: '#cf6a87', name: 'Nihil sit nostrum vitae'},
 	{color: '#f19066', name: 'Labore, tempore iste'},
-	{color: '#f3a683', name: 'as  af sdporis'},
-	{color: '#f7d794', name: 'sd gs dg sdg sPariatur voluptatem eaque velit'},
-	{color: '#778beb', name: 'Quas in fugiat voluptate'},
-	{color: '#e77f67', name: 'Deleniti veniam quas voluptas'},
-	{color: '#cf6a87', name: 'Nihil sit nostrum vitae'},
-	{color: '#f19066', name: 'Labore, tempore iste'},
+	{color: '#f3a683', name: '2as  af sdporis'},
+	{color: '#f7d794', name: '2sd gs dg sdg sPariatur voluptatem eaque velit'},
+	{color: '#778beb', name: '2Quas in fugiat voluptate'},
+	{color: '#e77f67', name: '2Deleniti veniam quas voluptas'},
+	{color: '#cf6a87', name: '2Nihil sit nostrum vitae'},
+	{color: '#f19066', name: '2Labore, tempore iste'},
 ]
 
-function Categories() {
+function Categories({navigation}) {
 	return (
 		<View style={style.wrapper}>
 			<Header 
 				title="Categories"
-				leftComponent={<Header.Action onPress={() => {}} />}
+				leftComponent={<Header.Action onPress={navigation.goBack} />}
 			/>
 			<ScrollView contentContainerStyle={style.scrollView}>
 				{categories.map(({name, color}) => (
-					<View style={style.category}>
+					<View style={style.category} key={name}>
 						<CategoryColorBox backgroundColor={color} />
 						<Text style={style.name} ellipsisMode="tail" numberOfLines={1}>{name}</Text>
 						<View style={style.rightSide}>
@@ -44,7 +44,7 @@ function Categories() {
 					</View>
 				))}
 			</ScrollView>
-			<Fab onPress={() => {}} />
+			<Fab onPress={() => navigation.navigate('AddCategory')} />
 		</View>
 	)
 }
@@ -63,7 +63,7 @@ const style = StyleSheet.create({
 		alignItems: 'center'
 	},
 	name: {
-		fontSize: 18,
+		fontSize: 14,
 		color: colors.primaryText,
 		flexGrow: 0,
 		flexShrink: 1

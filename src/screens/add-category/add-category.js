@@ -8,7 +8,7 @@ import CategoryColorBox from '../../commons/components/category-color-box/catego
 import colors, {categoryColors} from '../../commons/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-function AddCategory() {
+function AddCategory({navigation}) {
 	const [color, setColor] = useState(categoryColors[0]);
 	const [categoryName, setCategoryName] = useState('');
 
@@ -16,7 +16,7 @@ function AddCategory() {
 		<Fragment>
 			<Header 
 				title="Add category"
-				leftComponent={<Header.Action iconName="times" onPress={() => {}} />}
+				leftComponent={<Header.Action iconName="times" onPress={navigation.goBack} />}
 				rightComponent={<Header.Action iconName="check" onPress={() => {}} />}
 			/>
 			<View style={style.wrapper}>
@@ -31,8 +31,8 @@ function AddCategory() {
 				</View>
 				<View style={style.colors}>
 					{categoryColors.map(item => (
-						<TouchableOpacity activeOpacity={0.7} onPress={() => setColor(item)}>
-							<CategoryColorBox isSelected={item === color} key={item} backgroundColor={item} />
+						<TouchableOpacity key={item} activeOpacity={0.7} onPress={() => setColor(item)}>
+							<CategoryColorBox isSelected={item === color} backgroundColor={item} />
 						</TouchableOpacity>
 					))}
 				</View>
