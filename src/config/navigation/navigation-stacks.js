@@ -21,7 +21,7 @@ function NavigationStacks() {
 			<BottomTabs.Navigator headerMode="none" tabBar={BottomTabsComponent}>
 				<BottomTabs.Screen name="Dashboard" component={Dashboard} options={{tabBarLabel: 'balance-scale'}} />
 				<BottomTabs.Screen name="Timeline" component={Timeline} options={{tabBarLabel: 'calendar'}} />
-				<BottomTabs.Screen name="AddCategory" component={AddCategory} options={{tabBarLabel: 'calendar'}} />
+				<BottomTabs.Screen name="Categories" component={Categories} options={{tabBarLabel: 'calendar'}} />
 			</BottomTabs.Navigator>
 		</NavigationContainer>
 	)

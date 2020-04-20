@@ -57,7 +57,8 @@ const style = StyleSheet.create({
 	},
 	textInput: {
 		flexGrow: 1,
-		fontSize: 22
+		fontSize: 22,
+		color: colors.primaryText
 	}
 });
 
