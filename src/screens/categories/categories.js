@@ -5,23 +5,24 @@ import Header from '../../commons/components/header/header';
 import CategoryColorBox from '../../commons/components/category-color-box/category-color-box';
 import Fab from '../../commons/components/fab/fab';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import List from '../../commons/components/list/list';
 
 import colors from '../../commons/colors';
 import sizes from '../../commons/sizes';
 
 const categories = [
-	{color: '#f3a683', name: 'as  af sdporis'},
-	{color: '#f7d794', name: 'sd gs dg sdg sPariatur voluptatem eaque velit'},
-	{color: '#778beb', name: 'Quas in fugiat voluptate'},
-	{color: '#e77f67', name: 'Deleniti veniam quas voluptas'},
-	{color: '#cf6a87', name: 'Nihil sit nostrum vitae'},
-	{color: '#f19066', name: 'Labore, tempore iste'},
-	{color: '#f3a683', name: '2as  af sdporis'},
-	{color: '#f7d794', name: '2sd gs dg sdg sPariatur voluptatem eaque velit'},
-	{color: '#778beb', name: '2Quas in fugiat voluptate'},
-	{color: '#e77f67', name: '2Deleniti veniam quas voluptas'},
-	{color: '#cf6a87', name: '2Nihil sit nostrum vitae'},
-	{color: '#f19066', name: '2Labore, tempore iste'},
+	{color: '#f3a683', title: 'as  af sdporis'},
+	{color: '#f7d794', title: 'sd gs dg sdg sPariatur voluptatem eaque velit'},
+	{color: '#778beb', title: 'Quas in fugiat voluptate'},
+	{color: '#e77f67', title: 'Deleniti veniam quas voluptas'},
+	{color: '#cf6a87', title: 'Nihil sit nostrum vitae'},
+	{color: '#f19066', title: 'Labore, tempore iste'},
+	{color: '#f3a683', title: '2as  af sdporis'},
+	{color: '#f7d794', title: '2sd gs dg sdg sPariatur voluptatem eaque velit'},
+	{color: '#778beb', title: '2Quas in fugiat voluptate'},
+	{color: '#e77f67', title: '2Deleniti veniam quas voluptas'},
+	{color: '#cf6a87', title: '2Nihil sit nostrum vitae'},
+	{color: '#f19066', title: '2Labore, tempore iste'},
 ]
 
 function Categories({navigation}) {
@@ -32,17 +33,11 @@ function Categories({navigation}) {
 				leftComponent={<Header.Action onPress={navigation.goBack} />}
 			/>
 			<ScrollView contentContainerStyle={style.scrollView}>
-				{categories.map(({name, color}) => (
-					<View style={style.category} key={name}>
-						<CategoryColorBox backgroundColor={color} />
-						<Text style={style.name} ellipsisMode="tail" numberOfLines={1}>{name}</Text>
-						<View style={style.rightSide}>
-							<TouchableHighlight style={style.removeBtn} underlayColor={`${colors.secondaryText}1A`} onPress={() => {}}>
-								<Icon name="trash" size={sizes.ICON_SIZE} color={colors.secondaryText} />
-							</TouchableHighlight>
-						</View>
-					</View>
-				))}
+				<List 
+					items={categories}
+					leftComponent={item => <CategoryColorBox backgroundColor={item.color} />}
+					rightComponent={item => <List.RowAction iconName="trash" onPress={() => {}} />}
+				/>
 			</ScrollView>
 			<Fab onPress={() => navigation.navigate('AddCategory')} />
 		</View>
@@ -55,7 +50,7 @@ const style = StyleSheet.create({
 		flexShrink: 1
 	},
 	scrollView: {
-		paddingBottom: 40 + sizes.OUTER_MARGIN
+		paddingBottom: 40 + 2 * sizes.OUTER_MARGIN
 	},
 	category: {
 		flexDirection: 'row',

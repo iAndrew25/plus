@@ -6,6 +6,8 @@ Design
 https://www.materialpalette.com/teal/deep-orange
 
 Tools
+https://realm.io/blog/introducing-realm-react-native/
+
 https://reactnavigation.org/docs/getting-started
 https://reactnative.dev/docs/touchablehighlight
 https://github.com/react-native-community/react-native-modal

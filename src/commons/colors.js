@@ -12,6 +12,9 @@ export default {
 	secondaryText: '#757575',
 
 	onPrimary: '#FFFFFF',
+	onBackground: '#7575751A',
+
+	background: '#FFFFFF',
 
 	divider: '#BDBDBD'
 }

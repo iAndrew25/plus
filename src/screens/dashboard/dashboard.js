@@ -8,6 +8,8 @@ import Header from '../../commons/components/header/header';
 import sizes from '../../commons/sizes';
 import colors from '../../commons/colors';
 
+import List from '../../commons/components/list/list';
+
 function Dashboard({navigation}) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const showModal = () => setIsModalVisible(true);
@@ -28,9 +30,9 @@ function Dashboard({navigation}) {
 				style={style.modalWrapper}>
 
 				<View style={style.modalContent}>
-					<Text>Monthly income</Text>
-					<Text>Categories</Text>
-					<Text>Currency</Text>
+					<List.Row title="Monthly income" onPress={() => {}} rightComponent={<List.RowAction />} />
+					<List.Row title="Categories" subtitle="12 categories" onPress={() => {}} rightComponent={<List.RowAction />}  />
+					<List.Row title="Currency" subtitle="RON" onPress={() => {}} rightComponent={<List.RowAction />}  />
 				</View>
 			</Modal>
 		</View>
@@ -44,7 +46,7 @@ const style = StyleSheet.create({
 	},
 	modalContent: {
 		backgroundColor: '#fff',
-		padding: sizes.OUTER_MARGIN
+		paddingVertical: sizes.INNER_MARGIN
 	}
 });
 
