@@ -33,7 +33,7 @@ function Dashboard({navigation}) {
 				style={style.modalWrapper}>
 
 				<View style={style.modalContent}>
-					<Text style={style.settings}>Settings</Text>
+					<List.Subtitle text="Settings" />
 					<List.Row title="Categories" subtitle="12 categories" onPress={navigateTo('Categories')} rightComponent={<List.RowAction />}  />
 					<List.Row title="Currency" subtitle="RON" onPress={navigateTo('SetCurrency')} rightComponent={<List.RowAction />}  />
 				</View>

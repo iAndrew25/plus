@@ -14,6 +14,7 @@ export default {
 	onPrimary: '#FFFFFF',
 	onBackground: '#7575751A',
 
+	surface: '#FAFAFA',
 	background: '#FFFFFF',
 
 	divider: '#BDBDBD'

@@ -33,7 +33,8 @@ const style = StyleSheet.create({
 		flexDirection: 'row',
 		height: sizes.TABS_HEIGHT,
 		justifyContent: 'space-around',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundColor: colors.background
 	},
 	tab: {
 		flexDirection: 'column',

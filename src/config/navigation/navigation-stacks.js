@@ -8,8 +8,10 @@ import BottomTabsComponent from '../../commons/components/bottom-tabs/bottom-tab
 import Dashboard from '../../screens/dashboard/dashboard';
 import Timeline from '../../screens/timeline/timeline';
 
+import AddRecord from '../../screens/add-record/add-record';
 import AddCategory from '../../screens/add-category/add-category';
 import Categories from '../../screens/categories/categories';
+import SetCurrency from '../../screens/set-currency/set-currency';
 
 const BottomTabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -28,6 +30,8 @@ function NavigationStacks() {
 				<Stack.Screen name="Home" component={Home} />
 				<Stack.Screen name="Categories" component={Categories} />
 				<Stack.Screen name="AddCategory" component={AddCategory} />
+				<Stack.Screen name="AddRecord" component={AddRecord} />
+				<Stack.Screen name="SetCurrency" component={SetCurrency} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	)

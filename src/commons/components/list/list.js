@@ -5,15 +5,20 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import sizes from '../../sizes';
 import colors from '../../colors';
 
-function List({items, leftComponent, rightComponent}) {
-	return items.map(item => 
-		<ListRow 
-			key={item.title}
-			title={item.title} 
-			subtitle={item.subtitle} 
-			leftComponent={leftComponent(item)} 
-			rightComponent={rightComponent(item)} />
-	);
+function List({items, onPress, keyExtractor, leftComponent, rightComponent}) {
+	return items.map(item => {
+		const {title, subtitle} = keyExtractor(item);
+
+		return (
+			<ListRow 
+				key={title}
+				title={title} 
+				subtitle={subtitle} 
+				onPress={() => onPress(item)}
+				leftComponent={leftComponent(item)} 
+				rightComponent={rightComponent(item)} />
+		);
+	});
 }
 
 function ListRow({title, subtitle, leftComponent, rightComponent, ...rest}) {
@@ -46,6 +51,10 @@ function ListRowAction({iconColor, iconName, ...rest}) {
 ListRowAction.defaultProps = {
 	iconColor: colors.secondaryText,
 	iconName: 'chevron-right'
+}
+
+function ListSubtitle({text}) {
+	return <Text style={style.listSubtitle}>{text}</Text>
 }
 
 const style = StyleSheet.create({
@@ -86,10 +95,18 @@ const style = StyleSheet.create({
 		borderRadius: 20,
 		alignItems: 'center',
 		justifyContent: 'center',
-	}
+	},
+	listSubtitle: {
+		fontSize: 18,
+		fontWeight: 'bold',
+		color: colors.primaryText,
+		letterSpacing: 0.5,
+		padding: sizes.INNER_MARGIN
+	},
 });
 
 List.Row = ListRow;
 List.RowAction = ListRowAction;
+List.Subtitle = ListSubtitle;
 
 export default List;
