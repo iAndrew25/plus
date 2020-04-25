@@ -4,8 +4,8 @@ import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import {getCategories} from '../../services/category-service';
-
 import {parseDate} from '../../commons/utils/dates';
+
 import List from '../../commons/components/list/list';
 import Header from '../../commons/components/header/header';
 import sizes from '../../commons/sizes';
@@ -76,7 +76,8 @@ function AddCategory({navigation}) {
 						<List.RowAction 
 							iconName="check" 
 							iconColor={recordType === type ? colors.primaryDefault: colors.secondaryText} 
-						/>} 
+						/>
+					} 
 				/>
 			)}
 		</Fragment>

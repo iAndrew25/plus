@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 
-import {getCategoiesCount} from '../../services/category-service';
+import {getCategoriesCount} from '../../services/category-service';
 
 import Fab from '../../commons/components/fab/fab';
 import Header from '../../commons/components/header/header';
@@ -36,7 +36,7 @@ function Dashboard({navigation}) {
 
 				<View style={style.modalContent}>
 					<Text style={style.settings}>Settings</Text>
-					<List.Row title="Categories" subtitle={`${getCategoiesCount()} categories`} onPress={navigateTo('Categories')} rightComponent={<List.RowAction />}  />
+					<List.Row title="Categories" subtitle={`${getCategoriesCount()} categories`} onPress={navigateTo('Categories')} rightComponent={<List.RowAction />}  />
 					<List.Row title="Currency" subtitle="RON" onPress={navigateTo('SetCurrency')} rightComponent={<List.RowAction />}  />
 				</View>
 			</Modal>

@@ -8,7 +8,6 @@ import sizes from '../../commons/sizes';
 import CategoryColorBox from '../../commons/components/category-color-box/category-color-box';
 
 import colors, {categoryColors} from '../../commons/colors';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 function AddCategory({navigation}) {
 	const [color, setColor] = useState(categoryColors[0]);
