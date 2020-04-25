@@ -1,7 +1,9 @@
 import React, {useState, Fragment} from 'react';
 import {View, ScrollView, TextInput, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import Modal from 'react-native-modal';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
+import {parseDate} from '../../commons/utils/dates';
 import List from '../../commons/components/list/list';
 import Header from '../../commons/components/header/header';
 import sizes from '../../commons/sizes';
@@ -25,28 +27,38 @@ const categories = [
 	{color: '#f19066', name: '2Labore, tempore iste'},
 ]
 
+const currentDate = new Date();
+
 function AddCategory({navigation}) {
 	const [recordType, setRecordType] = useState('Expense');
 	const [modalType, setModalType] = useState('none');
 	const [recordValue, setRecordValue] = useState('');
-	const iconName = recordType === 'Expense' ? 'minus' : 'plus';
-	const sign = recordType === 'Expense' ? '-' : '+';
-	const currency = 'RON';
+	const [shouldDisplayDatePicker, setShouldDisplayDatePicker] = useState(false);
+	const [timestamp, setTimestamp] = useState(currentDate);
 	const [category, setCategory] = useState({
 		color: categoryColors[0],
 		name: 'Pick a category...'
 	});
 
+	const iconName = recordType === 'Expense' ? 'minus' : 'plus';
+	const sign = recordType === 'Expense' ? '-' : '+';
+	const currency = 'RON';
+
 	const hideModal = () => setModalType('none');
 	
 	const handleSetCategory = category => {
 		setCategory(category);
-		setModalType('none');
+		hideModal();
 	}
 
 	const handleSetRecordType = type => {
 		setRecordType(type);
-		setModalType('none');		
+		hideModal();
+	}
+
+	const handleSetTimestamp = (event, selectedDate) => {
+		setTimestamp(selectedDate || timestamp);
+		setShouldDisplayDatePicker(false);
 	}
 
 	const renderModalContentForCategories = () => (
@@ -115,7 +127,8 @@ function AddCategory({navigation}) {
 					</View>
 				</View>
 				<List.Row 
-					title="Today" 
+					title={parseDate(timestamp)}
+					onPress={() => setShouldDisplayDatePicker(true)}
 					leftComponent={<List.RowAction iconName="calendar" />} />
 				<List.Row 
 					subtitle="Record type"
@@ -134,8 +147,12 @@ function AddCategory({navigation}) {
 					<View style={style.modalContent}>
 						{renderModalContent()}
 					</View>
-
 				</Modal>
+
+				{shouldDisplayDatePicker && <DateTimePicker
+					value={timestamp}
+					onChange={handleSetTimestamp}
+				/>}
 			</View>
 		</Fragment>
 	)

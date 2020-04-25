@@ -5,7 +5,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import sizes from '../../sizes';
 import colors from '../../colors';
 
-function List({items, onPress, keyExtractor, leftComponent, rightComponent}) {
+const handleKeyExtractor = ({title, subtitle}) => ({title, subtitle});
+
+function List({items, onPress, leftComponent, rightComponent, keyExtractor = handleKeyExtractor}) {
 	return items.map(item => {
 		const {title, subtitle} = keyExtractor(item);
 
