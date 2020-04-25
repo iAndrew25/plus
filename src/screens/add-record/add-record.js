@@ -1,7 +1,9 @@
-import React, {useState, Fragment} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import {View, ScrollView, TextInput, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
+
+import {getCategories} from '../../services/category-service';
 
 import {parseDate} from '../../commons/utils/dates';
 import List from '../../commons/components/list/list';
@@ -12,24 +14,10 @@ import CategoryColorBox from '../../commons/components/category-color-box/catego
 import colors, {categoryColors} from '../../commons/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const categories = [
-	{color: '#f3a683', name: 'as  af sdporis'},
-	{color: '#f7d794', name: 'sd gs dg sdg sPariatur voluptatem eaque velit'},
-	{color: '#778beb', name: 'Quas in fugiat voluptate'},
-	{color: '#e77f67', name: 'Deleniti veniam quas voluptas'},
-	{color: '#cf6a87', name: 'Nihil sit nostrum vitae'},
-	{color: '#f19066', name: 'Labore, tempore iste'},
-	{color: '#f3a683', name: '2as  af sdporis'},
-	{color: '#f7d794', name: '2sd gs dg sdg sPariatur voluptatem eaque velit'},
-	{color: '#778beb', name: '2Quas in fugiat voluptate'},
-	{color: '#e77f67', name: '2Deleniti veniam quas voluptas'},
-	{color: '#cf6a87', name: '2Nihil sit nostrum vitae'},
-	{color: '#f19066', name: '2Labore, tempore iste'},
-]
-
 const currentDate = new Date();
 
 function AddCategory({navigation}) {
+	const [categories, setCategories] = useState([]);
 	const [recordType, setRecordType] = useState('Expense');
 	const [modalType, setModalType] = useState('none');
 	const [recordValue, setRecordValue] = useState('');
@@ -39,6 +27,8 @@ function AddCategory({navigation}) {
 		color: categoryColors[0],
 		name: 'Pick a category...'
 	});
+
+	useEffect(() => setCategories(getCategories()), []);
 
 	const iconName = recordType === 'Expense' ? 'minus' : 'plus';
 	const sign = recordType === 'Expense' ? '-' : '+';

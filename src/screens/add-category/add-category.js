@@ -1,6 +1,8 @@
 import React, {useState, Fragment} from 'react';
 import {View, TextInput, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
+import {createCategory} from '../../services/category-service';
+
 import Header from '../../commons/components/header/header';
 import sizes from '../../commons/sizes';
 import CategoryColorBox from '../../commons/components/category-color-box/category-color-box';
@@ -10,14 +12,26 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 function AddCategory({navigation}) {
 	const [color, setColor] = useState(categoryColors[0]);
-	const [categoryName, setCategoryName] = useState('');
+	const [name, setName] = useState('');
+	const handleAddCategory = () => {
+		try {
+			createCategory({
+				color,
+				name
+			});
+
+			navigation.goBack();
+		} catch(error) {
+			console.log('AddCategory::error', error);
+		}
+	};
 
 	return (
 		<Fragment>
 			<Header 
 				title="Add category"
 				leftComponent={<Header.Action iconName="times" onPress={navigation.goBack} />}
-				rightComponent={<Header.Action iconName="check" onPress={() => {}} />}
+				rightComponent={<Header.Action iconName="check" onPress={handleAddCategory} />}
 			/>
 			<View style={style.wrapper}>
 				<View style={style.addCategory}>
@@ -25,9 +39,9 @@ function AddCategory({navigation}) {
 					<TextInput
 						autoFocus 
 						placeholder="Category name..." 
-						onChangeText={setCategoryName} 
+						onChangeText={setName} 
 						style={style.textInput} 
-						value={categoryName} />
+						value={name} />
 				</View>
 				<View style={style.colors}>
 					{categoryColors.map(item => (

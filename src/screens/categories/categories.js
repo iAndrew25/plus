@@ -1,5 +1,8 @@
-import React from 'react';
-import {View, Text, StyleSheet, ScrollView, TouchableHighlight} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {Alert, View, Text, StyleSheet, ScrollView, TouchableHighlight} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+
+import {getCategories, deleteCategory} from '../../services/category-service';
 
 import Header from '../../commons/components/header/header';
 import CategoryColorBox from '../../commons/components/category-color-box/category-color-box';
@@ -10,22 +13,26 @@ import List from '../../commons/components/list/list';
 import colors from '../../commons/colors';
 import sizes from '../../commons/sizes';
 
-const categories = [
-	{color: '#f3a683', title: 'as  af sdporis'},
-	{color: '#f7d794', title: 'sd gs dg sdg sPariatur voluptatem eaque velit'},
-	{color: '#778beb', title: 'Quas in fugiat voluptate'},
-	{color: '#e77f67', title: 'Deleniti veniam quas voluptas'},
-	{color: '#cf6a87', title: 'Nihil sit nostrum vitae'},
-	{color: '#f19066', title: 'Labore, tempore iste'},
-	{color: '#f3a683', title: '2as  af sdporis'},
-	{color: '#f7d794', title: '2sd gs dg sdg sPariatur voluptatem eaque velit'},
-	{color: '#778beb', title: '2Quas in fugiat voluptate'},
-	{color: '#e77f67', title: '2Deleniti veniam quas voluptas'},
-	{color: '#cf6a87', title: '2Nihil sit nostrum vitae'},
-	{color: '#f19066', title: '2Labore, tempore iste'},
-]
-
 function Categories({navigation}) {
+	const [categories, setCategories] = useState([]);
+	const handleOnRemove = item => () => {
+		Alert.alert('Remove category', 'Are you sure you want to remove this category?', [{
+			text: 'Cancel'
+		}, {
+			text: 'Delete',
+			onPress: () => {
+				try {
+					deleteCategory(item);
+					setCategories(getCategories());
+				} catch(error) {
+					console.log('Categories::error', error);
+				}
+			}
+		}])
+	}
+
+	useFocusEffect(useCallback(() => setCategories(getCategories()), []));
+
 	return (
 		<View style={style.wrapper}>
 			<Header 
@@ -35,8 +42,9 @@ function Categories({navigation}) {
 			<ScrollView contentContainerStyle={style.scrollView}>
 				<List 
 					items={categories}
+					keyExtractor={({id, name}) => ({id, title: name})}
 					leftComponent={item => <CategoryColorBox backgroundColor={item.color} />}
-					rightComponent={item => <List.RowAction iconName="trash" onPress={() => {}} />}
+					rightComponent={item => <List.RowAction iconName="trash" onPress={handleOnRemove(item)} />}
 				/>
 			</ScrollView>
 			<Fab onPress={() => navigation.navigate('AddCategory')} />

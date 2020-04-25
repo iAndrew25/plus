@@ -5,18 +5,19 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import sizes from '../../sizes';
 import colors from '../../colors';
 
-const handleKeyExtractor = ({title, subtitle}) => ({title, subtitle});
+const handleKeyExtractor = ({id, title, subtitle}) => ({id, title, subtitle});
 
 function List({items, onPress, leftComponent, rightComponent, keyExtractor = handleKeyExtractor}) {
 	return items.map(item => {
-		const {title, subtitle} = keyExtractor(item);
+		const {id, title, subtitle} = keyExtractor(item);
+		const handleOnPress = () => onPress && onPress(item);
 
 		return (
 			<ListRow 
-				key={title}
+				key={id || title}
 				title={title} 
 				subtitle={subtitle} 
-				onPress={() => onPress(item)}
+				onPress={handleOnPress}
 				leftComponent={leftComponent(item)} 
 				rightComponent={rightComponent(item)} />
 		);
