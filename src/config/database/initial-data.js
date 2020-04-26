@@ -1,3 +1,16 @@
+const INITIAL_CURRENCIES = [{
+	symbol: 'RON',
+	name: 'Leu'
+}, {
+	symbol: '€',
+	name: 'Euro'
+}, {
+	symbol: '$',
+	name: 'Dolar'
+}];
+
+const INITIAL_CURRENCY = INITIAL_CURRENCIES[0];
+
 const INITIAL_CATEGORIES = [{
 	id: 0,
 	name: 'Travel',
@@ -73,5 +86,7 @@ const INITIAL_CATEGORIES = [{
 }];
 
 export {
-	INITIAL_CATEGORIES
-}
+	INITIAL_CATEGORIES,
+	INITIAL_CURRENCIES,
+	INITIAL_CURRENCY
+};

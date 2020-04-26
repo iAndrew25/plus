@@ -1,6 +1,7 @@
 const initialStore = {
-	categories: [],
 	records: [],
+	categories: [],
 	categoriesCount: 0,
-	currency: 'RON'
+	currency: {},
+	currencies: []
 }

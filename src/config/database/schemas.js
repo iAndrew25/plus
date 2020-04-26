@@ -20,7 +20,26 @@ const RecordSchema = {
 	}
 }
 
-export {
+const CurrencySchema = {
+	name: 'Currency',
+	properties: {
+		name: 'string',
+		symbol: 'string'
+	}
+}
+
+const ConfigShema = {
+	name: 'Config',
+	properties: {
+		currency: 'Currency',
+		currencies: 'Currency[]',
+		categories: 'Category[]'
+	}
+}
+
+export default [
 	CategorySchema,
-	RecordSchema
-};
+	RecordSchema,
+	CurrencySchema,
+	ConfigShema
+];

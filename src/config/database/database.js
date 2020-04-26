@@ -1,7 +1,7 @@
 import Realm from 'realm';
 
-import {CategorySchema, RecordSchema} from './schemas';
+import schemas from './schemas';
 
 export default new Realm({
-	schema: [CategorySchema, RecordSchema]
+	schema: schemas
 });

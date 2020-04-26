@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 
-import {getCategoriesAction} from '../../config/store/actions';
+import {getInitialDataAction} from '../../config/store/actions';
 
 import storeConnect from '../../config/store/store-connect';
 
@@ -13,7 +13,7 @@ import List from '../../commons/components/list/list';
 import sizes from '../../commons/sizes';
 import colors from '../../commons/colors';
 
-function Dashboard({navigation, categoriesCount, getCategories}) {
+function Dashboard({navigation, categoriesCount, getInitialData}) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const showModal = () => setIsModalVisible(true);
 	const hideModal = () => setIsModalVisible(false);
@@ -22,7 +22,7 @@ function Dashboard({navigation, categoriesCount, getCategories}) {
 		navigation.navigate(screenName);
 	}
 
-	useEffect(getCategories, []);
+	useEffect(() => getInitialData(), []);
 
 	return (
 		<View style={{flex: 1}}>
@@ -67,6 +67,6 @@ const style = StyleSheet.create({
 });
 
 const mapStateToProps = ({categoriesCount}) => ({categoriesCount});
-const mapDispatchToProps = dispatch => ({ getCategories: getCategoriesAction(dispatch) });
+const mapDispatchToProps = dispatch => ({ getInitialData: getInitialDataAction(dispatch) });
 
 export default storeConnect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -2,6 +2,12 @@ const rootReducer = (state, {type, payload = {}} = {}) => {
 	let {categories, categoriesCount, records, currency} = payload;
 
 	switch (type) {
+		case 'SET_INITIAL_DATA':
+			return {
+				...state,
+				...payload
+			};
+
 		case 'SET_CATEGORIES':
 			return {
 				...state,

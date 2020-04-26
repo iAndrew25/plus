@@ -1,8 +1,26 @@
 import database from '../database/database';
 
+const getInitialDataAction = dispatch => () => {
+	try {
+		const categories = database.objects('Category').sorted('name');
+		const currencies = database.objects('Currency').sorted('name');
+
+		dispatch({
+			type: 'SET_INITIAL_DATA',
+			payload: {
+				// currency,
+				currencies,
+				categories,
+				categoriesCount: categories.length,
+			}
+		})
+	} catch(error) {
+		console.log("getInitialDataAction::error", error);
+	}
+}
+
 const getCategoriesAction = dispatch => () => {
 	try {
-		console.log('get categoriesss');
 		const categories = database.objects('Category').sorted('name');
 
 		dispatch({
@@ -42,6 +60,7 @@ const deleteCategoryAction = dispatch => category => {
 }
 
 export {
+	getInitialDataAction,
 	getCategoriesAction,
 	createCategoryAction,
 	deleteCategoryAction
