@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 
-import {getCategoriesCount} from '../../services/category-service';
+import {getCategoriesAction} from '../../config/store/actions';
+
+import storeConnect from '../../config/store/store-connect';
 
 import Fab from '../../commons/components/fab/fab';
 import Header from '../../commons/components/header/header';
@@ -11,7 +13,7 @@ import List from '../../commons/components/list/list';
 import sizes from '../../commons/sizes';
 import colors from '../../commons/colors';
 
-function Dashboard({navigation}) {
+function Dashboard({navigation, categoriesCount, getCategories}) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const showModal = () => setIsModalVisible(true);
 	const hideModal = () => setIsModalVisible(false);
@@ -19,6 +21,8 @@ function Dashboard({navigation}) {
 		hideModal();
 		navigation.navigate(screenName);
 	}
+
+	useEffect(getCategories, []);
 
 	return (
 		<View style={{flex: 1}}>
@@ -36,7 +40,7 @@ function Dashboard({navigation}) {
 
 				<View style={style.modalContent}>
 					<Text style={style.settings}>Settings</Text>
-					<List.Row title="Categories" subtitle={`${getCategoriesCount()} categories`} onPress={navigateTo('Categories')} rightComponent={<List.RowAction />}  />
+					<List.Row title="Categories" subtitle={`${categoriesCount} categories`} onPress={navigateTo('Categories')} rightComponent={<List.RowAction />}  />
 					<List.Row title="Currency" subtitle="RON" onPress={navigateTo('SetCurrency')} rightComponent={<List.RowAction />}  />
 				</View>
 			</Modal>
@@ -62,4 +66,7 @@ const style = StyleSheet.create({
 	}
 });
 
-export default Dashboard;
+const mapStateToProps = ({categoriesCount}) => ({categoriesCount});
+const mapDispatchToProps = dispatch => ({ getCategories: getCategoriesAction(dispatch) });
+
+export default storeConnect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -3,7 +3,7 @@ import {View, ScrollView, TextInput, Text, StyleSheet, TouchableHighlight} from 
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import {getCategories} from '../../services/category-service';
+import storeConnect from '../../config/store/store-connect';
 import {parseDate} from '../../commons/utils/dates';
 
 import List from '../../commons/components/list/list';
@@ -16,8 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const currentDate = new Date();
 
-function AddCategory({navigation}) {
-	const [categories, setCategories] = useState([]);
+function AddRecord({navigation, categories}) {
 	const [recordType, setRecordType] = useState('Expense');
 	const [modalType, setModalType] = useState('none');
 	const [recordValue, setRecordValue] = useState('');
@@ -27,8 +26,6 @@ function AddCategory({navigation}) {
 		color: categoryColors[0],
 		name: 'Pick a category...'
 	});
-
-	useEffect(() => setCategories(getCategories()), []);
 
 	const iconName = recordType === 'Expense' ? 'minus' : 'plus';
 	const sign = recordType === 'Expense' ? '-' : '+';
@@ -219,4 +216,7 @@ const style = StyleSheet.create({
 	}
 });
 
-export default AddCategory;
+const mapStateToProps = ({categories}) => ({ categories });
+// const mapDispatchToProps = dispatch => ({ deleteCategory: deleteCategoryAction(dispatch) })
+
+export default storeConnect(mapStateToProps, null)(AddRecord);

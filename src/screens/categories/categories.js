@@ -2,7 +2,8 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {Alert, View, Text, StyleSheet, ScrollView, TouchableHighlight} from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
-import {getCategories, deleteCategory} from '../../services/category-service';
+import storeConnect from '../../config/store/store-connect';
+import {deleteCategoryAction} from '../../config/store/actions';
 
 import Header from '../../commons/components/header/header';
 import CategoryColorBox from '../../commons/components/category-color-box/category-color-box';
@@ -13,8 +14,8 @@ import List from '../../commons/components/list/list';
 import colors from '../../commons/colors';
 import sizes from '../../commons/sizes';
 
-function Categories({navigation}) {
-	const [categories, setCategories] = useState([]);
+function Categories({navigation, categories, deleteCategory}) {
+	console.log("Categories rendered");
 	const handleOnRemove = item => () => {
 		Alert.alert('Remove category', 'Are you sure you want to remove this category?', [{
 			text: 'Cancel'
@@ -23,15 +24,12 @@ function Categories({navigation}) {
 			onPress: () => {
 				try {
 					deleteCategory(item);
-					setCategories(getCategories());
 				} catch(error) {
 					console.log('Categories::error', error);
 				}
 			}
 		}])
 	}
-
-	useFocusEffect(useCallback(() => setCategories(getCategories()), []));
 
 	return (
 		<View style={style.wrapper}>
@@ -86,4 +84,7 @@ const style = StyleSheet.create({
 	}
 });
 
-export default Categories;
+const mapStateToProps = ({categories}) => ({ categories });
+const mapDispatchToProps = dispatch => ({ deleteCategory: deleteCategoryAction(dispatch) })
+
+export default storeConnect(mapStateToProps, mapDispatchToProps)(Categories);

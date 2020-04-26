@@ -1,7 +1,8 @@
 import React, {useState, Fragment} from 'react';
 import {View, TextInput, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-import {createCategory} from '../../services/category-service';
+import storeConnect from '../../config/store/store-connect';
+import {createCategoryAction} from '../../config/store/actions';
 
 import Header from '../../commons/components/header/header';
 import sizes from '../../commons/sizes';
@@ -9,7 +10,7 @@ import CategoryColorBox from '../../commons/components/category-color-box/catego
 
 import colors, {categoryColors} from '../../commons/colors';
 
-function AddCategory({navigation}) {
+function AddCategory({navigation, createCategory}) {
 	const [color, setColor] = useState(categoryColors[0]);
 	const [name, setName] = useState('');
 	const handleAddCategory = () => {
@@ -75,4 +76,6 @@ const style = StyleSheet.create({
 	}
 });
 
-export default AddCategory;
+const mapDispatchToProps = dispatch => ({ createCategory: createCategoryAction(dispatch) });
+
+export default storeConnect(null, mapDispatchToProps)(AddCategory);
