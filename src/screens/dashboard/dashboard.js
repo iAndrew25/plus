@@ -6,6 +6,7 @@ import {getInitialDataAction} from '../../config/store/actions';
 
 import storeConnect from '../../config/store/store-connect';
 
+import MonthRecord from '../month-records/month-record';
 import Fab from '../../commons/components/fab/fab';
 import Header from '../../commons/components/header/header';
 import List from '../../commons/components/list/list';
@@ -23,13 +24,14 @@ function Dashboard({navigation, categoriesCount, selectedCurrency, getInitialDat
 		navigation.navigate(screenName);
 	}
 
-	useEffect(() => getInitialData(), []);
+	useEffect(getInitialData, []);
 
 	return (
 		<View style={{flex: 1}}>
 			<Header title="Dashboard" rightComponent={<Header.Action iconName="ellipsis-v" onPress={showModal} />} />
-			<Text>Lorem	asjf aksfj asfj baskjf bakjsf askjf baskjf baskf</Text>
 			<Fab onPress={() => navigation.navigate('AddRecord')} />
+
+			<MonthRecord />
 
 			<Modal
 				isVisible={isModalVisible}
@@ -40,7 +42,7 @@ function Dashboard({navigation, categoriesCount, selectedCurrency, getInitialDat
 				style={style.modalWrapper}>
 
 				<View style={style.modalContent}>
-					<Text style={style.settings}>Settings</Text>
+					<List.Subtitle text="Settings" />
 					<List.Row title="Categories" subtitle={`${categoriesCount} categories`} onPress={navigateTo('Categories')} rightComponent={<List.RowAction />}  />
 					<List.Row title="Currency" subtitle={`${symbol} - ${name}`} onPress={navigateTo('SetCurrency')} rightComponent={<List.RowAction />}  />
 				</View>
