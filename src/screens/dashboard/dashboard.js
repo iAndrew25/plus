@@ -13,7 +13,8 @@ import List from '../../commons/components/list/list';
 import sizes from '../../commons/sizes';
 import colors from '../../commons/colors';
 
-function Dashboard({navigation, categoriesCount, getInitialData}) {
+function Dashboard({navigation, categoriesCount, selectedCurrency, getInitialData}) {
+	const {symbol, name} = selectedCurrency;
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const showModal = () => setIsModalVisible(true);
 	const hideModal = () => setIsModalVisible(false);
@@ -41,7 +42,7 @@ function Dashboard({navigation, categoriesCount, getInitialData}) {
 				<View style={style.modalContent}>
 					<Text style={style.settings}>Settings</Text>
 					<List.Row title="Categories" subtitle={`${categoriesCount} categories`} onPress={navigateTo('Categories')} rightComponent={<List.RowAction />}  />
-					<List.Row title="Currency" subtitle="RON" onPress={navigateTo('SetCurrency')} rightComponent={<List.RowAction />}  />
+					<List.Row title="Currency" subtitle={`${symbol} - ${name}`} onPress={navigateTo('SetCurrency')} rightComponent={<List.RowAction />}  />
 				</View>
 			</Modal>
 		</View>
@@ -66,7 +67,7 @@ const style = StyleSheet.create({
 	}
 });
 
-const mapStateToProps = ({categoriesCount}) => ({categoriesCount});
+const mapStateToProps = ({categoriesCount, selectedCurrency}) => ({categoriesCount, selectedCurrency});
 const mapDispatchToProps = dispatch => ({ getInitialData: getInitialDataAction(dispatch) });
 
 export default storeConnect(mapStateToProps, mapDispatchToProps)(Dashboard);

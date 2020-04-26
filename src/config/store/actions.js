@@ -58,9 +58,29 @@ const deleteCategoryAction = dispatch => category => {
 	}
 }
 
+const updateCurrentCurrencyAction = dispatch => selectedCurrency => {
+	try {
+		database.write(() => {
+			const response = database.objects('InitialData')[0];
+			
+			response.selectedCurrency = selectedCurrency;
+		});
+
+		dispatch({
+			type: 'SET_SELECTED_CURRENCY',
+			payload: {
+				selectedCurrency
+			}
+		})
+	} catch(error) {
+		console.log("updateCurrentCurrencyAction::error", error);
+	}
+}
+
 export {
 	getInitialDataAction,
 	getCategoriesAction,
 	createCategoryAction,
-	deleteCategoryAction
+	deleteCategoryAction,
+	updateCurrentCurrencyAction
 };

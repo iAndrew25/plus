@@ -1,6 +1,5 @@
 const rootReducer = (state, {type, payload = {}} = {}) => {
-	console.log("payload",type, payload);
-	let {categories, categoriesCount, records, currency} = payload;
+	let {categories, categoriesCount, records, selectedCurrency} = payload;
 
 	switch (type) {
 		case 'SET_INITIAL_DATA':
@@ -14,13 +13,13 @@ const rootReducer = (state, {type, payload = {}} = {}) => {
 				...state,
 				categoriesCount,
 				categories
-			}
+			};
 
-		case 'SET_CURRENCY':
+		case 'SET_SELECTED_CURRENCY':
 			return {
 				...state,
-				currency
-			}
+				selectedCurrency
+			};
 
 		default:
 			return state;

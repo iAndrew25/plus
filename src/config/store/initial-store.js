@@ -2,7 +2,7 @@ const initialStore = {
 	records: [],
 	categories: [],
 	categoriesCount: 0,
-	currency: {},
+	selectedCurrency: {},
 	currencies: []
 };
 
