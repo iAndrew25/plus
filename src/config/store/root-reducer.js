@@ -1,4 +1,5 @@
 const rootReducer = (state, {type, payload = {}} = {}) => {
+	console.log("payload",type, payload);
 	let {categories, categoriesCount, records, currency} = payload;
 
 	switch (type) {

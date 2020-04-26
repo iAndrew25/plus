@@ -11,7 +11,9 @@ import List from '../../commons/components/list/list';
 import colors from '../../commons/colors';
 import sizes from '../../commons/sizes';
 
-function SetCurrency({navigation, currencies}) {
+function SetCurrency({navigation, currencies, selectedCurrency}) {
+	console.log("selectedCurrency", selectedCurrency);
+	console.log("currencies", currencies);
 	return (
 		<Fragment>
 			<Header 
@@ -19,12 +21,22 @@ function SetCurrency({navigation, currencies}) {
 				leftComponent={<Header.Action onPress={navigation.goBack} />}
 			/>
 			{currencies.map(({symbol, name}) => 
-				<List.Row key={symbol} title={`${symbol} - ${name}`} onPress={() => {}} rightComponent={<List.RowAction iconName="check" iconColor={colors.primaryDefault} />} />
+				<List.Row 
+					key={symbol} 
+					title={`${symbol} - ${name}`} 
+					onPress={() => {}} 
+					rightComponent={
+						<List.RowAction 
+							iconName="check" 
+							iconColor={symbol === selectedCurrency.symbol ? colors.primaryDefault : colors.secondaryText}
+						/>
+					}
+				/>
 			)}
 		</Fragment>
 	)
 }
 
-const mapStateToProps = ({currencies}) => ({currencies});
+const mapStateToProps = ({currencies, selectedCurrency}) => ({currencies, selectedCurrency});
 
 export default storeConnect(mapStateToProps, null)(SetCurrency);

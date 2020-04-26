@@ -2,15 +2,14 @@ import database from '../database/database';
 
 const getInitialDataAction = dispatch => () => {
 	try {
-		const categories = database.objects('Category').sorted('name');
-		const currencies = database.objects('Currency').sorted('name');
+		const {selectedCurrency, categories, currencies} = database.objects('InitialData')[0];
 
 		dispatch({
 			type: 'SET_INITIAL_DATA',
 			payload: {
-				// currency,
-				currencies,
-				categories,
+				selectedCurrency,
+				currencies: currencies.sorted('name'),
+				categories: categories.sorted('name'),
 				categoriesCount: categories.length,
 			}
 		})

@@ -4,4 +4,6 @@ const initialStore = {
 	categoriesCount: 0,
 	currency: {},
 	currencies: []
-}
+};
+
+export default initialStore;

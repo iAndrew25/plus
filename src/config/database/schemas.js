@@ -28,10 +28,10 @@ const CurrencySchema = {
 	}
 }
 
-const ConfigShema = {
-	name: 'Config',
+const InitialDataShema = {
+	name: 'InitialData',
 	properties: {
-		currency: 'Currency',
+		selectedCurrency: 'Currency',
 		currencies: 'Currency[]',
 		categories: 'Category[]'
 	}
@@ -41,5 +41,5 @@ export default [
 	CategorySchema,
 	RecordSchema,
 	CurrencySchema,
-	ConfigShema
+	InitialDataShema
 ];
