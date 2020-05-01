@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import BottomTabsComponent from '../../commons/components/bottom-tabs/bottom-tabs';
 
@@ -12,9 +13,25 @@ import AddRecord from '../../screens/add-record/add-record';
 import AddCategory from '../../screens/add-category/add-category';
 import Categories from '../../screens/categories/categories';
 import SetCurrency from '../../screens/set-currency/set-currency';
+import MonthlyRecords from '../../screens/monthly-records/monthly-records';
 
+const TopTabs = createMaterialTopTabNavigator();
 const BottomTabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+const renderDashboardTopTabs = (records, selectedCurrency) => {
+	const recordsList = Object.entries(records);
+
+	if(recordsList.length) {
+		return (
+			<TopTabs.Navigator lazy>
+				{recordsList.map(([title, currentRecords]) => <TopTabs.Screen key={title} name={title} initialParams={{currentRecords, selectedCurrency}} component={MonthlyRecords} />)}
+			</TopTabs.Navigator>
+		);
+	} else {
+		return null;
+	}
+}
 
 const Home = () => (
 	<BottomTabs.Navigator headerMode="none" tabBar={BottomTabsComponent}>
@@ -36,5 +53,7 @@ function NavigationStacks() {
 		</NavigationContainer>
 	)
 }
+
+export {renderDashboardTopTabs};
 
 export default NavigationStacks;

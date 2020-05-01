@@ -21,6 +21,12 @@ const rootReducer = (state, {type, payload = {}} = {}) => {
 				selectedCurrency
 			};
 
+		case 'SET_RECORDS':
+			return {
+				...state,
+				records
+			};
+
 		default:
 			return state;
 	}

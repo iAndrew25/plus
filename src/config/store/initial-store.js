@@ -1,5 +1,5 @@
 const initialStore = {
-	records: [],
+	records: {},
 	categories: [],
 	categoriesCount: 0,
 	selectedCurrency: {},

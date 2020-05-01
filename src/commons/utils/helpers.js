@@ -20,6 +20,9 @@ const formatRecordsForChart = records =>
 		}
 	}, {}));
 
+const getRecordsSum = records => records.reduce((total, item) => total + item.value, 0);
+
 export {
+	getRecordsSum,
 	formatRecordsForChart
 };

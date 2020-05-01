@@ -1,8 +1,12 @@
 import database from '../database/database';
+import {groupRecordsByDate} from '../../commons/utils/dates';
 
 const getInitialDataAction = dispatch => () => {
 	try {
-		const {selectedCurrency, categories, currencies} = database.objects('InitialData')[0];
+		const {selectedCurrency} = database.objects('Settings')[0];
+		const categories = database.objects('Category');
+		const records = database.objects('Record');
+		const currencies = database.objects('Currency');
 
 		dispatch({
 			type: 'SET_INITIAL_DATA',
@@ -11,19 +15,11 @@ const getInitialDataAction = dispatch => () => {
 				currencies: currencies.sorted('name'),
 				categories: categories.sorted('name'),
 				categoriesCount: categories.length,
+				records: groupRecordsByDate(records)
 			}
 		});
 	} catch(error) {
 		console.log("getInitialDataAction::error", error);
-	}
-}
-
-const getRecordsAction = dispatch => () => {
-	try {
-		const records = database.objects('Record');
-		console.log("records", JSON.stringify(records));
-	} catch(error) {
-		console.log("getRecordsAction::error", error);
 	}
 }
 
@@ -80,9 +76,24 @@ const updateCurrentCurrencyAction = dispatch => selectedCurrency => {
 			payload: {
 				selectedCurrency
 			}
-		})
+		});
 	} catch(error) {
 		console.log("updateCurrentCurrencyAction::error", error);
+	}
+}
+
+const getRecordsAction = dispatch => () => {
+	try {
+		const records = database.objects('Record');
+
+		dispatch({
+			type: 'SET_RECORDS',
+			payload: {
+				records
+			}
+		});
+	} catch(error) {
+		console.log("getRecordsAction::error", error);
 	}
 }
 
@@ -95,7 +106,7 @@ const createRecordAction = dispatch => record => {
 			});
 		});
 
-		//getCategoriesAction(dispatch)();
+		getRecordsAction(dispatch)();
 	} catch(error) {
 		console.log("createRecordAction::error", error);
 	}	

@@ -4,9 +4,9 @@ import Modal from 'react-native-modal';
 
 import {getInitialDataAction, getRecordsAction} from '../../config/store/actions';
 
+import {renderDashboardTopTabs} from '../../config/navigation/navigation-stacks';
 import storeConnect from '../../config/store/store-connect';
 
-import MonthRecord from '../month-records/month-record';
 import Fab from '../../commons/components/fab/fab';
 import Header from '../../commons/components/header/header';
 import List from '../../commons/components/list/list';
@@ -14,7 +14,7 @@ import List from '../../commons/components/list/list';
 import sizes from '../../commons/sizes';
 import colors from '../../commons/colors';
 
-function Dashboard({navigation, categoriesCount, selectedCurrency, getInitialData, getRecords}) {
+function Dashboard({navigation, categoriesCount, selectedCurrency, records, getInitialData}) {
 	const {symbol, name} = selectedCurrency;
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const showModal = () => setIsModalVisible(true);
@@ -24,18 +24,13 @@ function Dashboard({navigation, categoriesCount, selectedCurrency, getInitialDat
 		navigation.navigate(screenName);
 	}
 
-	useEffect(() => {
-		getInitialData();
-		getRecords();
-	}, []);
+	useEffect(getInitialData, []);
 
 	return (
-		<View style={{flex: 1}}>
+		<View style={style.wrapper}>
 			<Header title="Dashboard" rightComponent={<Header.Action iconName="ellipsis-v" onPress={showModal} />} />
+			{renderDashboardTopTabs(records, selectedCurrency)}
 			<Fab onPress={() => navigation.navigate('AddRecord')} />
-
-			<MonthRecord />
-
 			<Modal
 				isVisible={isModalVisible}
 				onBackdropPress={hideModal}
@@ -55,6 +50,9 @@ function Dashboard({navigation, categoriesCount, selectedCurrency, getInitialDat
 }
 
 const style = StyleSheet.create({
+	wrapper: {
+		flex: 1
+	},
 	settings: {
 		fontSize: 18,
 		fontWeight: 'bold',
@@ -72,7 +70,7 @@ const style = StyleSheet.create({
 	}
 });
 
-const mapStateToProps = ({categoriesCount, selectedCurrency}) => ({categoriesCount, selectedCurrency});
+const mapStateToProps = ({categoriesCount, selectedCurrency, records}) => ({categoriesCount, selectedCurrency, records});
 const mapDispatchToProps = dispatch => ({ getInitialData: getInitialDataAction(dispatch), getRecords: getRecordsAction(dispatch) });
 
 export default storeConnect(mapStateToProps, mapDispatchToProps)(Dashboard);
