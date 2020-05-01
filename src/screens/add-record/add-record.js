@@ -3,6 +3,7 @@ import {View, ScrollView, TextInput, Text, StyleSheet, TouchableHighlight} from 
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import {createRecordAction} from '../../config/store/actions';
 import storeConnect from '../../config/store/store-connect';
 import {parseDate} from '../../commons/utils/dates';
 
@@ -16,7 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const currentDate = new Date();
 
-function AddRecord({navigation, categories}) {
+function AddRecord({navigation, categories, createRecord}) {
 	const [recordType, setRecordType] = useState('Expense');
 	const [modalType, setModalType] = useState('none');
 	const [recordValue, setRecordValue] = useState('');
@@ -33,6 +34,19 @@ function AddRecord({navigation, categories}) {
 
 	const hideModal = () => setModalType('none');
 	
+	const handleCreateRecord = () => {
+		if(category.id && recordValue) {
+			createRecord({
+				type: recordType.toUpperCase(),
+				value: parseFloat(recordValue),
+				timestamp,
+				category
+			});
+
+			navigation.goBack();
+		}
+	}
+
 	const handleSetCategory = category => {
 		setCategory(category);
 		hideModal();
@@ -98,7 +112,7 @@ function AddRecord({navigation, categories}) {
 			<Header 
 				title={`Add ${recordType}`}
 				leftComponent={<Header.Action iconName="times" onPress={navigation.goBack} />}
-				rightComponent={<Header.Action iconName="check" onPress={() => {}} />}
+				rightComponent={<Header.Action iconName="check" onPress={handleCreateRecord} />}
 			/>
 			<View style={style.wrapper}>
 				<View style={style.record}>
@@ -217,6 +231,6 @@ const style = StyleSheet.create({
 });
 
 const mapStateToProps = ({categories}) => ({ categories });
-// const mapDispatchToProps = dispatch => ({ deleteCategory: deleteCategoryAction(dispatch) })
+const mapDispatchToProps = dispatch => ({ createRecord: createRecordAction(dispatch) })
 
-export default storeConnect(mapStateToProps, null)(AddRecord);
+export default storeConnect(mapStateToProps, mapDispatchToProps)(AddRecord);

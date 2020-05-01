@@ -12,9 +12,18 @@ const getInitialDataAction = dispatch => () => {
 				categories: categories.sorted('name'),
 				categoriesCount: categories.length,
 			}
-		})
+		});
 	} catch(error) {
 		console.log("getInitialDataAction::error", error);
+	}
+}
+
+const getRecordsAction = dispatch => () => {
+	try {
+		const records = database.objects('Record');
+		console.log("records", JSON.stringify(records));
+	} catch(error) {
+		console.log("getRecordsAction::error", error);
 	}
 }
 
@@ -77,7 +86,24 @@ const updateCurrentCurrencyAction = dispatch => selectedCurrency => {
 	}
 }
 
+const createRecordAction = dispatch => record => {
+	try {
+		database.write(() => {
+			database.create('Record', {
+				id: Date.now(),
+				...record
+			});
+		});
+
+		//getCategoriesAction(dispatch)();
+	} catch(error) {
+		console.log("createRecordAction::error", error);
+	}	
+}
+
 export {
+	getRecordsAction,
+	createRecordAction,
 	getInitialDataAction,
 	getCategoriesAction,
 	createCategoryAction,

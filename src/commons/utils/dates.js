@@ -13,6 +13,24 @@ const parseDate = date => {
 	}
 };
 
+const getMonthAndYearFromDate = timestamp => {
+	const date = new Date(timestamp);
+	const month = date.getMonth();
+	const year = date.getFullYear();
+
+	return `${MONTHS[month]} ${year}`;
+}
+
+const groupRecordsByDate = records => records.reduce((total, item) => {
+	const groupName = getMonthAndYearFromDate(item.timestamp);
+
+	return {
+		...total,
+		[groupName]: [...(total[groupName] || []), item]
+	}
+}, {});
+
 export {
-	parseDate
+	parseDate,
+	groupRecordsByDate
 };

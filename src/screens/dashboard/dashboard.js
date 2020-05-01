@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 
-import {getInitialDataAction} from '../../config/store/actions';
+import {getInitialDataAction, getRecordsAction} from '../../config/store/actions';
 
 import storeConnect from '../../config/store/store-connect';
 
@@ -14,7 +14,7 @@ import List from '../../commons/components/list/list';
 import sizes from '../../commons/sizes';
 import colors from '../../commons/colors';
 
-function Dashboard({navigation, categoriesCount, selectedCurrency, getInitialData}) {
+function Dashboard({navigation, categoriesCount, selectedCurrency, getInitialData, getRecords}) {
 	const {symbol, name} = selectedCurrency;
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const showModal = () => setIsModalVisible(true);
@@ -24,7 +24,10 @@ function Dashboard({navigation, categoriesCount, selectedCurrency, getInitialDat
 		navigation.navigate(screenName);
 	}
 
-	useEffect(getInitialData, []);
+	useEffect(() => {
+		getInitialData();
+		getRecords();
+	}, []);
 
 	return (
 		<View style={{flex: 1}}>
@@ -70,6 +73,6 @@ const style = StyleSheet.create({
 });
 
 const mapStateToProps = ({categoriesCount, selectedCurrency}) => ({categoriesCount, selectedCurrency});
-const mapDispatchToProps = dispatch => ({ getInitialData: getInitialDataAction(dispatch) });
+const mapDispatchToProps = dispatch => ({ getInitialData: getInitialDataAction(dispatch), getRecords: getRecordsAction(dispatch) });
 
 export default storeConnect(mapStateToProps, mapDispatchToProps)(Dashboard);
