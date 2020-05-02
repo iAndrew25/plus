@@ -1,5 +1,5 @@
-import React, {Fragment, useState, useEffect} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import React from 'react';
+import {Text, ScrollView, StyleSheet} from 'react-native';
 import { PieChart } from "react-native-chart-kit";
 
 import storeConnect from '../../config/store/store-connect';
