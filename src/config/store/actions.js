@@ -4,16 +4,15 @@ const getInitialDataAction = dispatch => () => {
 	try {
 		const {selectedCurrency} = database.objects('Settings')[0];
 		const categories = database.objects('Category');
-		const records = database.objects('Record');
-		console.log("records", records);
 		const currencies = database.objects('Currency');
+		const records = database.objects('Record');
 
 		dispatch({
 			type: 'SET_INITIAL_DATA',
 			payload: {
-				records,
 				selectedCurrency,
 				categoriesCount: categories.length,
+				records: records.sorted('timestamp'),
 				currencies: currencies.sorted('name'),
 				categories: categories.sorted('name')
 			}
@@ -94,7 +93,7 @@ const getRecordsAction = dispatch => () => {
 		dispatch({
 			type: 'SET_RECORDS',
 			payload: {
-				records
+				records: records.sorted('timestamp')
 			}
 		});
 	} catch(error) {
