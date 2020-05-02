@@ -2,6 +2,8 @@ import React, {Fragment, useState, useEffect} from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import { PieChart } from "react-native-chart-kit";
 
+import storeConnect from '../../config/store/store-connect';
+
 import {formatRecordsForChart, getRecordsSum} from '../../commons/utils/helpers';
 
 import CategoryColorBox from '../../commons/components/category-color-box/category-color-box';
@@ -10,8 +12,7 @@ import List from '../../commons/components/list/list';
 
 import sizes from '../../commons/sizes';
 
-function MonthlyRecords({route}) {
-	const {currentRecords, selectedCurrency} = route.params;
+function MonthlyRecords({currentRecords, selectedCurrency}) {
 	const parsedCurrentRecords = formatRecordsForChart(currentRecords);
 	const totalSpent = getRecordsSum(currentRecords);
 
@@ -47,4 +48,11 @@ const style = StyleSheet.create({
 	}
 });
 
-export default MonthlyRecords;
+const mapStateToProps = ({records, selectedCurrency}, {route}) => {
+	return {
+		selectedCurrency,
+		currentRecords: records[route.name]
+	}
+}
+
+export default storeConnect(mapStateToProps, null)(MonthlyRecords);

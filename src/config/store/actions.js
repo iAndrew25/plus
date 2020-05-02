@@ -1,5 +1,4 @@
 import database from '../database/database';
-import {groupRecordsByDate} from '../../commons/utils/dates';
 
 const getInitialDataAction = dispatch => () => {
 	try {
@@ -11,11 +10,11 @@ const getInitialDataAction = dispatch => () => {
 		dispatch({
 			type: 'SET_INITIAL_DATA',
 			payload: {
+				records,
 				selectedCurrency,
-				currencies: currencies.sorted('name'),
-				categories: categories.sorted('name'),
 				categoriesCount: categories.length,
-				records: groupRecordsByDate(records)
+				currencies: currencies.sorted('name'),
+				categories: categories.sorted('name')
 			}
 		});
 	} catch(error) {

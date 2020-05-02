@@ -6,7 +6,7 @@ import {isFunction} from '../../commons/utils/validators';
 
 const storeConnect = (mapStateToProps, mapDispatchToProps) => UIComponent => ownProps => {
 	let [store, dispatch] = useContext(Context),
-		subscribedProps = isFunction(mapStateToProps) ? mapStateToProps(store) : {},
+		subscribedProps = isFunction(mapStateToProps) ? mapStateToProps(store, ownProps) : {},
 		dispatchProps = isFunction(mapDispatchToProps) ? mapDispatchToProps(dispatch) : {},
 		componentProps = {...subscribedProps, ...ownProps},
 		watchProps = Object.values(componentProps);

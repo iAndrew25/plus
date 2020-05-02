@@ -20,12 +20,12 @@ const BottomTabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const renderDashboardTopTabs = (records, selectedCurrency) => {
-	const recordsList = Object.entries(records);
+	const recordsList = Object.keys(records);
 
 	if(recordsList.length) {
 		return (
 			<TopTabs.Navigator lazy>
-				{recordsList.map(([title, currentRecords]) => <TopTabs.Screen key={title} name={title} initialParams={{currentRecords, selectedCurrency}} component={MonthlyRecords} />)}
+				{recordsList.map(title => <TopTabs.Screen key={title} name={title} component={MonthlyRecords} />)}
 			</TopTabs.Navigator>
 		);
 	} else {

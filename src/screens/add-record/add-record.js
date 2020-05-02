@@ -58,8 +58,8 @@ function AddRecord({navigation, categories, createRecord}) {
 	}
 
 	const handleSetTimestamp = (event, selectedDate) => {
-		setTimestamp(selectedDate || timestamp);
 		setShouldDisplayDatePicker(false);
+		setTimestamp(selectedDate || timestamp);
 	}
 
 	const renderModalContentForCategories = () => (
