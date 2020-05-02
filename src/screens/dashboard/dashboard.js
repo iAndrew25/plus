@@ -5,7 +5,7 @@ import Modal from 'react-native-modal';
 import storeConnect from '../../config/store/store-connect';
 import {getInitialDataAction, getRecordsAction} from '../../config/store/actions';
 
-import {renderDashboardTopTabs} from '../../config/navigation/navigation-stacks';
+import MonthlyRecordsTabs from '../../config/navigation/monthly-records-tabs';
 
 import Fab from '../../commons/components/fab/fab';
 import Header from '../../commons/components/header/header';
@@ -29,7 +29,7 @@ function Dashboard({navigation, categoriesCount, selectedCurrency, records, getI
 	return (
 		<View style={style.wrapper}>
 			<Header title="Dashboard" rightComponent={<Header.Action iconName="ellipsis-v" onPress={showModal} />} />
-			{renderDashboardTopTabs(records, selectedCurrency)}
+			<MonthlyRecordsTabs records={records} selectedCurrency={selectedCurrency} />
 			<Fab onPress={() => navigation.navigate('AddRecord')} />
 			<Modal
 				isVisible={isModalVisible}
