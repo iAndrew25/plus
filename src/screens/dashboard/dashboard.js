@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 
+import storeConnect from '../../config/store/store-connect';
 import {getInitialDataAction, getRecordsAction} from '../../config/store/actions';
 
 import {renderDashboardTopTabs} from '../../config/navigation/navigation-stacks';
-import storeConnect from '../../config/store/store-connect';
 
 import Fab from '../../commons/components/fab/fab';
 import Header from '../../commons/components/header/header';

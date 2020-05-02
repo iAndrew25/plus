@@ -1,6 +1,5 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Alert, View, Text, StyleSheet, ScrollView, TouchableHighlight} from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
+import {Alert, View, StyleSheet, ScrollView} from 'react-native';
 
 import storeConnect from '../../config/store/store-connect';
 import {deleteCategoryAction} from '../../config/store/actions';
@@ -8,14 +7,12 @@ import {deleteCategoryAction} from '../../config/store/actions';
 import Header from '../../commons/components/header/header';
 import CategoryColorBox from '../../commons/components/category-color-box/category-color-box';
 import Fab from '../../commons/components/fab/fab';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import List from '../../commons/components/list/list';
 
 import colors from '../../commons/colors';
 import sizes from '../../commons/sizes';
 
 function Categories({navigation, categories, deleteCategory}) {
-	console.log("Categories rendered");
 	const handleOnRemove = item => () => {
 		Alert.alert('Remove category', 'Are you sure you want to remove this category?', [{
 			text: 'Cancel'

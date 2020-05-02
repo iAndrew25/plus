@@ -98,6 +98,7 @@ const getRecordsAction = dispatch => () => {
 
 const createRecordAction = dispatch => record => {
 	try {
+		// isInUse - category
 		database.write(() => {
 			database.create('Record', {
 				id: Date.now(),

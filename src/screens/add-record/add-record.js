@@ -1,19 +1,18 @@
-import React, {useState, useEffect, Fragment} from 'react';
-import {View, ScrollView, TextInput, Text, StyleSheet, TouchableHighlight} from 'react-native';
+import React, {useState, Fragment} from 'react';
+import {ScrollView, TextInput, Text, View, StyleSheet, TouchableHighlight} from 'react-native';
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import {createRecordAction} from '../../config/store/actions';
 import storeConnect from '../../config/store/store-connect';
-import {parseDate} from '../../commons/utils/dates';
 
 import List from '../../commons/components/list/list';
 import Header from '../../commons/components/header/header';
-import sizes from '../../commons/sizes';
 import CategoryColorBox from '../../commons/components/category-color-box/category-color-box';
 
+import {parseDate} from '../../commons/utils/dates';
+import sizes from '../../commons/sizes';
 import colors, {categoryColors} from '../../commons/colors';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const currentDate = new Date();
 

@@ -1,5 +1,5 @@
 import React, {useState, Fragment} from 'react';
-import {View, TextInput, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 
 import storeConnect from '../../config/store/store-connect';
 import {createCategoryAction} from '../../config/store/actions';
