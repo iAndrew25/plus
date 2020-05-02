@@ -5,6 +5,7 @@ const getInitialDataAction = dispatch => () => {
 		const {selectedCurrency} = database.objects('Settings')[0];
 		const categories = database.objects('Category');
 		const records = database.objects('Record');
+		console.log("records", records);
 		const currencies = database.objects('Currency');
 
 		dispatch({
@@ -53,9 +54,14 @@ const createCategoryAction = dispatch => category => {
 const deleteCategoryAction = dispatch => category => {
 	try {
 		database.write(() => {
+			const records = database.objects('Record');
+			const recordsToRemove = records.filtered(`category.id = ${category.id}`);
+
+			database.delete(recordsToRemove);
 			database.delete(category);
 		});
 
+		getRecordsAction(dispatch)();
 		getCategoriesAction(dispatch)();
 	} catch(error) {
 		console.log("deleteCategoryAction::error", error);
@@ -65,7 +71,7 @@ const deleteCategoryAction = dispatch => category => {
 const updateCurrentCurrencyAction = dispatch => selectedCurrency => {
 	try {
 		database.write(() => {
-			const response = database.objects('InitialData')[0];
+			const response = database.objects('Settings')[0];
 			
 			response.selectedCurrency = selectedCurrency;
 		});
@@ -98,7 +104,6 @@ const getRecordsAction = dispatch => () => {
 
 const createRecordAction = dispatch => record => {
 	try {
-		// isInUse - category
 		database.write(() => {
 			database.create('Record', {
 				id: Date.now(),
