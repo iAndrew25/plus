@@ -16,27 +16,26 @@ import colors, {categoryColors} from '../../commons/colors';
 
 const currentDate = new Date();
 
-function AddRecord({navigation, categories, createRecord}) {
-	const [recordType, setRecordType] = useState('Expense');
-	const [modalType, setModalType] = useState('none');
+function AddRecord({navigation, categories, selectedCurrency, createRecord}) {
 	const [recordValue, setRecordValue] = useState('');
-	const [shouldDisplayDatePicker, setShouldDisplayDatePicker] = useState(false);
 	const [timestamp, setTimestamp] = useState(currentDate);
 	const [category, setCategory] = useState({
 		color: categoryColors[0],
 		name: 'Pick a category...'
 	});
 
-	const iconName = recordType === 'Expense' ? 'minus' : 'plus';
-	const sign = recordType === 'Expense' ? '-' : '+';
-	const currency = 'RON';
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
-	const hideModal = () => setModalType('none');
+	const hideModal = () => setIsModalVisible(false);
+	const showModal = () => setIsModalVisible(true);
+
+	const hideDatePicker = () => setIsDatePickerVisible(false);
+	const showDatePicker = () => setIsDatePickerVisible(true);
 	
 	const handleCreateRecord = () => {
 		if(category.id && recordValue) {
 			createRecord({
-				type: recordType.toUpperCase(),
 				value: parseFloat(recordValue),
 				timestamp,
 				category
@@ -51,94 +50,39 @@ function AddRecord({navigation, categories, createRecord}) {
 		hideModal();
 	}
 
-	const handleSetRecordType = type => {
-		setRecordType(type);
-		hideModal();
-	}
-
 	const handleSetTimestamp = (event, selectedDate) => {
-		setShouldDisplayDatePicker(false);
 		setTimestamp(selectedDate || timestamp);
-	}
-
-	const renderModalContentForCategories = () => (
-		<ScrollView>
-			<List.Subtitle text="Pick a category" />
-			<List 
-				keyExtractor={({id, name}) => ({id, title: name})}
-				items={categories}
-				onPress={handleSetCategory}
-				leftComponent={item => <CategoryColorBox backgroundColor={item.color} />}
-				rightComponent={item => <List.RowAction iconName="chevron-right" />}
-			/>
-		</ScrollView>
-	);
-
-	const renderModalContentForRecordType = () => (
-		<Fragment>
-			<List.Subtitle text="Pick a record type" />
-			{['Expense', 'Income'].map(type => 
-				<List.Row 
-					key={type}
-					title={type} 
-					onPress={() => handleSetRecordType(type)} 
-					rightComponent={
-						<List.RowAction 
-							iconName="check" 
-							iconColor={recordType === type ? colors.primaryDefault: colors.secondaryText} 
-						/>
-					} 
-				/>
-			)}
-		</Fragment>
-	);
-
-	const renderModalContent = () => {
-		switch(modalType) {
-			case 'SET_CATEGORIES':
-				return renderModalContentForCategories();
-
-			case 'SET_RECORD_TYPE':
-				return renderModalContentForRecordType();
-
-			default:
-				return null;
-		}
+		hideDatePicker();
 	}
 
 	return (
 		<Fragment>
 			<Header 
-				title={`Add ${recordType}`}
+				title="Add Expense"
 				leftComponent={<Header.Action iconName="times" onPress={navigation.goBack} />}
 				rightComponent={<Header.Action iconName="check" onPress={handleCreateRecord} />}
 			/>
 			<View style={style.wrapper}>
 				<View style={style.record}>
-					<TouchableHighlight style={style.addCategory} underlayColor={colors.onBackground} onPress={() => setModalType('SET_CATEGORIES')}>
+					<TouchableHighlight style={style.addCategory} underlayColor={colors.onBackground} onPress={showModal}>
 						<View style={style.categoryContent}>
 							<CategoryColorBox backgroundColor={category.color} />
 							<Text numberOfLines={1} ellipsisMode="tail" style={style.categoryName}>{category.name}</Text>
 						</View>
 					</TouchableHighlight>
 					<View style={style.value}>
-						<Text style={style.signs}>{sign}</Text>
+						<Text style={style.signs}>-</Text>
 						<TextInput placeholder="0"  style={style.textInput} onChangeText={setRecordValue} value={recordValue}/>
-						<Text style={style.signs}>{currency}</Text>
+						<Text style={style.signs}>{selectedCurrency.symbol}</Text>
 					</View>
 				</View>
 				<List.Row 
 					title={parseDate(timestamp)}
-					onPress={() => setShouldDisplayDatePicker(true)}
+					onPress={showDatePicker}
 					leftComponent={<List.RowAction iconName="calendar" />} />
-				<List.Row 
-					subtitle="Record type"
-					title={recordType} 
-					onPress={() => setModalType('SET_RECORD_TYPE')}
-					leftComponent={<List.RowAction iconName={iconName} />} />
 
 				<Modal
-					isVisible={modalType !== 'none'}
+					isVisible={isModalVisible}
 					onBackdropPress={hideModal}
 					onSwipeComplete={hideModal}
 					backdropTransitionOutTiming={0}
@@ -146,11 +90,20 @@ function AddRecord({navigation, categories, createRecord}) {
 					style={style.modalWrapper}>
 
 					<View style={style.modalContent}>
-						{renderModalContent()}
+						<ScrollView>
+							<List.Subtitle text="Pick a category" />
+							<List 
+								keyExtractor={({id, name}) => ({id, title: name})}
+								items={categories}
+								onPress={handleSetCategory}
+								leftComponent={item => <CategoryColorBox backgroundColor={item.color} />}
+								rightComponent={item => <List.RowAction iconName="check" iconColor={category.id === item.id ? colors.primaryDefault : colors.secondaryText} />}
+							/>
+						</ScrollView>
 					</View>
 				</Modal>
 
-				{shouldDisplayDatePicker && <DateTimePicker
+				{isDatePickerVisible && <DateTimePicker
 					value={timestamp}
 					onChange={handleSetTimestamp}
 				/>}
@@ -229,7 +182,7 @@ const style = StyleSheet.create({
 	}
 });
 
-const mapStateToProps = ({categories}) => ({ categories });
+const mapStateToProps = ({categories, selectedCurrency}) => ({ categories, selectedCurrency });
 const mapDispatchToProps = dispatch => ({ createRecord: createRecordAction(dispatch) })
 
 export default storeConnect(mapStateToProps, mapDispatchToProps)(AddRecord);

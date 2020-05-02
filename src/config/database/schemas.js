@@ -14,7 +14,6 @@ const RecordSchema = {
 	properties: {
 		id: 'int',
 		timestamp: 'date',
-		type: 'string', // EXPENSE | INCOME
 		value: 'double',
 		category: 'Category'
 	}
