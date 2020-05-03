@@ -5,11 +5,11 @@ import {Context} from './store-provider';
 import {isFunction} from '../../commons/utils/validators';
 
 const storeConnect = (mapStateToProps, mapDispatchToProps) => UIComponent => ownProps => {
-	let [store, dispatch] = useContext(Context),
-		subscribedProps = isFunction(mapStateToProps) ? mapStateToProps(store, ownProps) : {},
-		dispatchProps = isFunction(mapDispatchToProps) ? mapDispatchToProps(dispatch) : {},
-		componentProps = {...subscribedProps, ...ownProps},
-		watchProps = Object.values(componentProps);
+	const [store, dispatch] = useContext(Context);
+	const subscribedProps = isFunction(mapStateToProps) ? mapStateToProps(store, ownProps) : {};
+	const dispatchProps = isFunction(mapDispatchToProps) ? mapDispatchToProps(dispatch) : {};
+	const componentProps = {...subscribedProps, ...ownProps};
+	const watchProps = Object.values(componentProps);
 
 	return useMemo(() => <UIComponent {...componentProps} {...dispatchProps} />, watchProps);
 }

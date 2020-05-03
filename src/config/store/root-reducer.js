@@ -1,7 +1,7 @@
 import {groupRecordsByDate} from '../../commons/utils/dates';
 
 const rootReducer = (state, {type, payload = {}} = {}) => {
-	let {categories, currencies, categoriesCount, records, selectedCurrency} = payload;
+	const {categories, currencies, categoriesCount, records, selectedCurrency} = payload;
 
 	switch (type) {
 		case 'SET_INITIAL_DATA':

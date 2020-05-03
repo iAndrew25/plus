@@ -18,4 +18,4 @@ export default {
 	background: '#FFFFFF',
 
 	divider: '#BDBDBD'
-}
+};

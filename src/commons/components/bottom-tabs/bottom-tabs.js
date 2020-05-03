@@ -9,7 +9,7 @@ function BottomTabs({ state, descriptors, navigation }) {
 	return (
 		<View style={style.wrapper}>
 			{state.routes.map((route, index) => {
-				const { options } = descriptors[route.key];
+				const {options} = descriptors[route.key];
 				const isFocused = state.index === index;
 				const color = isFocused ? colors.primaryDefault : colors.secondaryText;
 				const onPress = () => {
