@@ -53,7 +53,7 @@ const style = StyleSheet.create({
 		flexShrink: 1
 	},
 	scrollView: {
-		paddingBottom: 40 + 2 * sizes.OUTER_MARGIN
+		paddingBottom: 8 + 16 + 50
 	},
 	category: {
 		flexDirection: 'row',
