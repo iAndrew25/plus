@@ -1,64 +1,74 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {Text, StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modal';
 
-import storeConnect from '../../config/store/store-connect';
-import {getInitialDataAction, getRecordsAction} from '../../config/store/actions';
+import {groupRecordsByDate} from '../../commons/utils/dates';
 
-import MonthlyRecordsTabs from '../../config/navigation/monthly-records-tabs';
-
-import Fab from '../../commons/components/fab/fab';
+import CategoryColorBox from '../../commons/components/category-color-box/category-color-box';
 import Header from '../../commons/components/header/header';
 import List from '../../commons/components/list/list';
+import Fab from '../../commons/components/fab/fab';
+import Card from '../../commons/components/card/card';
+import MonthlyRecordsTabs from '../../config/navigation/monthly-records-tabs';
+
+import storeConnect from '../../config/store/store-connect';
 
 import sizes from '../../commons/sizes';
 import colors from '../../commons/colors';
 
-function Dashboard({navigation, categoriesCount, selectedCurrency, records, getInitialData}) {
+function Dashboard({navigation, categoriesCount, selectedCurrency, records}) {
 	const {symbol, name} = selectedCurrency;
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const showModal = () => setIsModalVisible(true);
 	const hideModal = () => setIsModalVisible(false);
+
 	const navigateTo = screenName => () => {
 		hideModal();
 		navigation.navigate(screenName);
 	}
 
-	useEffect(getInitialData, []);
-
 	return (
-		<View style={style.wrapper}>
-			<Header title="Dashboard" rightComponent={<Header.Action iconName="ellipsis-v" onPress={showModal} />} />
-			<MonthlyRecordsTabs records={records} selectedCurrency={selectedCurrency} />
-			<Fab onPress={() => navigation.navigate('AddRecord')} />
+		<View style={styles.wrapper}>
+			<Header 
+				rightComponent={<Header.Action iconName="ellipsis-v" onPress={showModal} />}
+				title="Dashboard" />
+
+			<MonthlyRecordsTabs records={records} />
+
 			<Modal
+				style={styles.modalWrapper}
 				isVisible={isModalVisible}
 				onBackdropPress={hideModal}
 				onSwipeComplete={hideModal}
-				backdropTransitionOutTiming={0}
 				swipeDirection="down"
-				style={style.modalWrapper}>
-
-				<View style={style.modalContent}>
+				backdropTransitionOutTiming={0}
+			>
+				<View style={styles.modalContent}>
 					<List.Subtitle text="Settings" />
-					<List.Row title="Categories" subtitle={`${categoriesCount} categories`} onPress={navigateTo('Categories')} rightComponent={<List.RowAction />}  />
-					<List.Row title="Currency" subtitle={`${symbol} - ${name}`} onPress={navigateTo('SetCurrency')} rightComponent={<List.RowAction />}  />
+					<List.Row 
+						title="Categories" 
+						subtitle={`${categoriesCount} categories`}
+						onPress={navigateTo('Categories')}
+						rightComponent={<List.RowAction />}
+					/>
+					<List.Row 
+						title="Currency"
+						subtitle={`${symbol} - ${name}`}
+						onPress={navigateTo('SetCurrency')}
+						rightComponent={<List.RowAction />}
+					/>
 				</View>
 			</Modal>
-		</View>
-	)
-}
 
-const style = StyleSheet.create({
+			<Fab onPress={() => navigation.navigate('AddRecord')} />	
+		</View>
+	);
+};
+
+const styles = StyleSheet.create({
 	wrapper: {
-		flex: 1
-	},
-	settings: {
-		fontSize: 18,
-		fontWeight: 'bold',
-		color: colors.primaryText,
-		letterSpacing: 0.5,
-		padding: sizes.INNER_MARGIN
+		flexGrow: 1,
+		flexShrink: 1
 	},
 	modalWrapper: {
 		justifyContent: 'flex-end',
@@ -70,7 +80,10 @@ const style = StyleSheet.create({
 	}
 });
 
-const mapStateToProps = ({categoriesCount, selectedCurrency, records}) => ({categoriesCount, selectedCurrency, records});
-const mapDispatchToProps = dispatch => ({ getInitialData: getInitialDataAction(dispatch), getRecords: getRecordsAction(dispatch) });
+const mapStateToProps = ({categoriesCount, selectedCurrency, records}) => ({
+	records: groupRecordsByDate(records),
+	categoriesCount,
+	selectedCurrency
+});
 
-export default storeConnect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default storeConnect(mapStateToProps, null)(Dashboard);

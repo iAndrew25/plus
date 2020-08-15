@@ -1,22 +1,21 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
-import sizes from '../../sizes';
 import colors from '../../colors';
+import sizes from '../../sizes';
 
 function Card({children}) {
 	return (
-		<View style={style.wrapper}>
+		<View style={styles.wrapper}>
 			{children}
 		</View>
 	);
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	wrapper: {
-		borderRadius: 8,
 		backgroundColor: colors.background,
+		borderRadius: 8,
 		margin: sizes.INNER_MARGIN,
 		padding: sizes.INNER_MARGIN,
 		elevation: 1

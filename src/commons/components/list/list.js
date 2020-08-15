@@ -1,9 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 
-import sizes from '../../sizes';
+import Header from '../header/header';
+
 import colors from '../../colors';
+import sizes from '../../sizes';
 
 const handleKeyExtractor = ({id, title, subtitle}) => ({id, title, subtitle});
 
@@ -13,29 +14,42 @@ function List({items, onPress, leftComponent, rightComponent, keyExtractor = han
 		const handleOnPress = () => onPress && onPress(item);
 
 		return (
-			<ListRow 
+			<ListRow
 				key={id || title}
-				title={title} 
-				subtitle={subtitle} 
+				title={title}
+				subtitle={subtitle}
 				onPress={handleOnPress}
-				leftComponent={leftComponent(item)} 
-				rightComponent={rightComponent(item)} />
+				leftComponent={leftComponent(item)}
+				rightComponent={rightComponent(item)}
+			/>
 		);
-	});
+	})
 }
 
 function ListRow({title, subtitle, leftComponent, rightComponent, ...rest}) {
 	return (
-		<TouchableHighlight underlayColor={colors.onBackground} {...rest}>
-			<View style={style.wrapper}>
-				<View style={style.left}>
+		<TouchableHighlight {...rest} underlayColor={colors.onBackground}>
+			<View style={styles.wrapper}>
+				<View style={styles.leftComponent}>
 					{leftComponent}
 				</View>
-				<View style={style.center}>
-					<Text numberOfLines={1} ellipsisMode="tail" style={style.title}>{title}</Text>
-					{subtitle && <Text numberOfLines={1} ellipsisMode="tail" style={style.subtitle}>{subtitle}</Text>}
+				<View style={styles.centerComponent}>
+					<Text 
+						numberOfLines={1} 
+						ellipsisMode="tail" 
+						style={styles.title}
+					>
+						{title}
+					</Text>
+					{subtitle && <Text 
+						numberOfLines={1} 
+						ellipsisMode="tail" 
+						style={styles.subtitle}
+					>
+						{subtitle}
+					</Text>}
 				</View>
-				<View style={style.right}>
+				<View style={styles.rightComponent}>
 					{rightComponent}
 				</View>
 			</View>
@@ -45,10 +59,13 @@ function ListRow({title, subtitle, leftComponent, rightComponent, ...rest}) {
 
 function ListRowAction({iconColor, iconName, ...rest}) {
 	return (
-		<TouchableHighlight style={style.listRowAction} underlayColor={colors.onBackground} {...rest}>
-			<Icon name={iconName} size={sizes.ICON_SIZE} color={iconColor} />
-		</TouchableHighlight>
-	);
+		<Header.Action 
+			iconColor={iconColor} 
+			iconName={iconName} 
+			underlayColor={colors.onBackground} 
+			{...rest}
+		/>
+	)
 }
 
 ListRowAction.defaultProps = {
@@ -57,32 +74,26 @@ ListRowAction.defaultProps = {
 }
 
 function ListSubtitle({text}) {
-	return <Text style={style.listSubtitle}>{text}</Text>
+	return <Text style={styles.listSubtitle}>{text}</Text>
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	wrapper: {
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
-		height: 50,
+		height: sizes.LIST_ROW_HEIGHT,
 		padding: sizes.INNER_MARGIN
 	},
-	left: {
+	leftComponent: {
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
-	center: {
+	centerComponent: {
 		paddingHorizontal: sizes.INNER_MARGIN,
 		justifyContent: 'center',
 		flexDirection: 'column',
 		flexGrow: 0,
 		flexShrink: 1
-	},
-	right: {
-		alignItems: 'flex-end',
-		justifyContent: 'center',
-		flexGrow: 1,
-		flexShrink: 0
 	},
 	title: {
 		fontSize: 15,
@@ -92,12 +103,11 @@ const style = StyleSheet.create({
 		fontSize: 10,
 		color: colors.secondaryText
 	},
-	listRowAction: {
-		width: 40,
-		height: 40,
-		borderRadius: 20,
-		alignItems: 'center',
+	rightComponent: {
+		alignItems: 'flex-end',
 		justifyContent: 'center',
+		flexGrow: 1,
+		flexShrink: 0
 	},
 	listSubtitle: {
 		fontSize: 18,
@@ -105,11 +115,11 @@ const style = StyleSheet.create({
 		color: colors.primaryText,
 		letterSpacing: 0.5,
 		padding: sizes.INNER_MARGIN
-	},
+	}
 });
 
 List.Row = ListRow;
-List.RowAction = ListRowAction;
 List.Subtitle = ListSubtitle;
+List.RowAction = ListRowAction;
 
 export default List;

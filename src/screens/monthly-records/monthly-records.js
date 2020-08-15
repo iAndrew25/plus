@@ -1,40 +1,46 @@
 import React from 'react';
 import {Text, ScrollView, StyleSheet} from 'react-native';
-import { PieChart } from "react-native-chart-kit";
-
-import storeConnect from '../../config/store/store-connect';
-
-import {formatRecordsForChart, getRecordsSum} from '../../commons/utils/helpers';
+import {PieChart} from 'react-native-chart-kit';
 
 import CategoryColorBox from '../../commons/components/category-color-box/category-color-box';
 import Card from '../../commons/components/card/card';
 import List from '../../commons/components/list/list';
 
+import {groupRecordsByDate} from '../../commons/utils/dates';
+import {getTotalSpent, formatRecordsForChart} from '../../commons/utils/helpers';
+
+import storeConnect from '../../config/store/store-connect';
+
 import sizes from '../../commons/sizes';
 
 function MonthlyRecords({currentRecords, selectedCurrency}) {
 	const parsedCurrentRecords = formatRecordsForChart(currentRecords);
-	const totalSpent = getRecordsSum(currentRecords);
+	const totalSpent = getTotalSpent(currentRecords);
 
 	return (
-		<ScrollView contentContainerStyle={style.wrapper}>
+		<ScrollView contentContainerStyle={styles.wrapper}>
 			<Card>
 				<List.Subtitle text="Overview" />
-				<List.Row title="Total spent this month" rightComponent={<Text>{totalSpent} {selectedCurrency.symbol}</Text>}  />
+				<List.Row 
+					title="Total spent this month"
+					rightComponent={<Text>{totalSpent} {selectedCurrency.symbol}</Text>}
+				/>
 			</Card>
 			<Card>
 				<List.Subtitle text="Categories" />
+
 				<PieChart
-					data={parsedCurrentRecords}
+					accessor="value"
 					width={sizes.CHART_WIDTH}
 					height={sizes.CHART_HEIGHT}
-					chartConfig={{color: () => {}}} //idk
-					accessor="value"
+					data={parsedCurrentRecords}
+					chartConfig={{color: () => {}}} // ?!
 				/>
-				<List 
-					items={parsedCurrentRecords}
-					keyExtractor={({id, name}) => ({id, title: name})}
-					leftComponent={({color}) => <CategoryColorBox backgroundColor={color} />}
+
+				<List
+					items={currentRecords}
+					keyExtractor={({id, category}) => ({id, title: category.name})}
+					leftComponent={({category}) => <CategoryColorBox backgroundColor={category.color} />}
 					rightComponent={({value}) => <Text>{value} {selectedCurrency.symbol}</Text>}
 				/>
 			</Card>
@@ -42,17 +48,15 @@ function MonthlyRecords({currentRecords, selectedCurrency}) {
 	)
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	wrapper: {
-		paddingBottom: 8 + 16 + 50
+		paddingBottom: (sizes.OUTER_MARGIN * 2) + sizes.FAB_SIZE
 	}
 });
 
-const mapStateToProps = ({records, selectedCurrency}, {route}) => {
-	return {
-		selectedCurrency,
-		currentRecords: records[route.name]
-	}
-}
+const mapStateToProps = ({records, selectedCurrency}, {route}) => ({
+	currentRecords: groupRecordsByDate(records)[route.name],
+	selectedCurrency
+});
 
 export default storeConnect(mapStateToProps, null)(MonthlyRecords);

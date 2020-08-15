@@ -9,9 +9,9 @@ const parseDate = date => {
 	if(day === today.getDate() && month === date.getMonth() && year === date.getFullYear()) {
 		return 'Today';
 	} else {
-		return `${MONTHS[month].slice(0, 3)} ${day}, ${year}`;
+		return `${MONTHS[month]} ${day}, ${year}`;
 	}
-};
+}
 
 const getMonthAndYearFromDate = timestamp => {
 	const date = new Date(timestamp);
@@ -27,7 +27,7 @@ const groupRecordsByDate = records => records.reduce((total, item) => {
 	return {
 		...total,
 		[groupName]: [...(total[groupName] || []), item]
-	}
+	};
 }, {});
 
 export {

@@ -1,38 +1,40 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableHighlight} from 'react-native';
+import {View, StyleSheet, Text, TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import sizes from '../../sizes';
 import colors from '../../colors';
+import sizes from '../../sizes';
 
 function Header({leftComponent, title, rightComponent}) {
 	return (
-		<View style={style.wrapper}>
-			<View style={style.leftComponent}>
-				{leftComponent}
-			</View>
-			<Text style={style.title} numberOfLines={1} ellipsisMode="tail">{title}</Text>
-			<View style={style.rightComponent}>
-				{rightComponent}
+		<View style={styles.wrapper}>
+			{leftComponent}
+			<Text numberOfLines={1} style={styles.title} ellipsisMode="tail">{title}</Text>
+			<View style={styles.rightComponent}>
+				{rightComponent}				
 			</View>
 		</View>
-	);
+	)
 }
 
-function HeaderAction({iconColor, iconName, ...rest}) {
+function HeaderAction({iconName, iconColor, underlayColor, ...rest}) {
 	return (
-		<TouchableHighlight style={style.headerAction} underlayColor={colors.primaryDark} {...rest}>
+		<TouchableHighlight 
+			style={styles.headerAction} 
+			underlayColor={underlayColor || colors.primaryDark} 
+			{...rest}
+		>
 			<Icon name={iconName} size={sizes.ICON_SIZE} color={iconColor} />
 		</TouchableHighlight>
 	);
 }
 
 HeaderAction.defaultProps = {
-	iconColor: colors.onPrimary,
-	iconName: 'chevron-left'
+	iconName: 'chevron-left',
+	iconColor: colors.onPrimary
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	wrapper: {
 		height: sizes.HEADER_HEIGHT,
 		backgroundColor: colors.primaryDefault,
@@ -41,24 +43,17 @@ const style = StyleSheet.create({
 		flexDirection: 'row',
 		paddingHorizontal: sizes.INNER_MARGIN
 	},
-	leftComponent: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		height: sizes.HEADER_HEIGHT,
-		flexGrow: 0
-	},
-	rightComponent: {
-		alignItems: 'flex-end',
-		justifyContent: 'flex-end',
-		flexGrow: 1,
-		flexShrink: 0
-	},
 	title: {
 		flexGrow: 0,
 		flexShrink: 1,
 		paddingHorizontal: sizes.INNER_MARGIN,
+		color: colors.onPrimary,
 		fontSize: 16,
-		color: colors.onPrimary
+	},
+	rightComponent: {
+		alignItems: 'flex-end',
+		justifyContent: 'flex-end',
+		flexGrow: 1
 	},
 	headerAction: {
 		padding: sizes.INNER_MARGIN,
@@ -66,7 +61,7 @@ const style = StyleSheet.create({
 		height: 40,
 		borderRadius: 20,
 		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'center'
 	}
 });
 

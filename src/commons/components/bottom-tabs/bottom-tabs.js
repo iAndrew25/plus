@@ -1,41 +1,41 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import colors from '../../colors';
 import sizes from '../../sizes';
+import colors from '../../colors';
 
-function BottomTabs({ state, descriptors, navigation }) {
+function BottomTabs({state, descriptors, navigation}) {
 	return (
-		<View style={style.wrapper}>
+		<View style={styles.wrapper}>
 			{state.routes.map((route, index) => {
 				const {options} = descriptors[route.key];
-				const isFocused = state.index === index;
-				const color = isFocused ? colors.primaryDefault : colors.secondaryText;
-				const onPress = () => {
-					if (!isFocused) {
-						navigation.navigate(route.name);
+				const isFocussed = state.index === index;
+				const color = isFocussed ? colors.primaryDefault : colors.secondaryText;
+				const handleOnPress	= () => {
+					if(!isFocussed) {
+						navigation.navigate(route.name)
 					}
 				};
 
 				return (
-					<TouchableOpacity style={style.tab} onPress={onPress} key={route.name}>
+					<TouchableOpacity style={styles.tab} key={route.name} onPress={handleOnPress}>
 						<Icon name={options.tabBarLabel} size={sizes.ICON_SIZE} color={color} />
-						<Text style={[style.tabName, {color}]}>{route.name}</Text>
+						<Text style={[styles.tabName, {color}]}>{route.name}</Text>
 					</TouchableOpacity>
-				);
+				)
 			})}
 		</View>
 	);
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	wrapper: {
 		flexDirection: 'row',
-		height: sizes.TABS_HEIGHT,
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		backgroundColor: colors.background
+		backgroundColor: colors.background,
+		height: sizes.TABS_HEIGHT
 	},
 	tab: {
 		flexDirection: 'column',
@@ -43,7 +43,6 @@ const style = StyleSheet.create({
 		alignItems: 'center'
 	},
 	tabName: {
-		marginTop: 4,
 		fontSize: 12
 	}
 });

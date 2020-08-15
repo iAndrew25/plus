@@ -1,20 +1,25 @@
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import MonthlyRecords from '../../screens/monthly-records/monthly-records';
+
 import sizes from '../../commons/sizes';
 
-const TopTabs = createMaterialTopTabNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
-function MonthlyRecordsTabs({records, selectedCurrency}) {
+function MonthlyRecordsTabs({records}) {
 	const recordsList = Object.keys(records);
 
 	if(recordsList.length) {
 		return (
-			<TopTabs.Navigator lazy>
-				{recordsList.map(title => <TopTabs.Screen key={title} name={title} component={MonthlyRecords} />)}
-			</TopTabs.Navigator>
+			<TopTab.Navigator lazy>
+				{recordsList.map(title => <TopTab.Screen 
+					key={title} 
+					name={title} 
+					component={MonthlyRecords}
+				/>)}
+			</TopTab.Navigator>
 		);
 	} else {
 		return (

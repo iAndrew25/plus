@@ -1,21 +1,19 @@
-import React, {useEffect} from 'react';
+import 'react-native-gesture-handler';
 
-import NavigationStacks from './config/navigation/navigation-stacks';
+import React from 'react';
 
-import databaseInit from './config/database/database-init';
-
-import rootReducer from './config/store/root-reducer';
+import StoreProvider from './config/store/store-provider';
 import initialStore from './config/store/initial-store';
-import StateProvider from './config/store/store-provider';
+import rootReducer from './config/store/root-reducer';
+
+import NavigationStack from './config/navigation/navigation-stack';
 
 function App() {
-	useEffect(databaseInit, []);
-
 	return (
-		<StateProvider rootReducer={rootReducer} initialStore={initialStore}>
-			<NavigationStacks />
-		</StateProvider>
-	);
-}
+		<StoreProvider rootReducer={rootReducer} initialStore={initialStore}>
+			<NavigationStack />
+		</StoreProvider>
+	)
+};
 
 export default App;
